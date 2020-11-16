@@ -42,17 +42,18 @@ function search($array, $key, $value)
 
 $available = (search($list, 'chestGranted', false));
 
-# TODO
-# Displays integers of all champions that has chest available
-foreach ($available as $item) {
-        echo ($item['championId']) . PHP_EOL;
-}
 
-# Displays all champions available (string name)
+
+
+# Displays integers of all champions that has chest available
 foreach ($content['data'] as $data) {
-    foreach ($championId as $value) {
-        if($data['key'] == $value) {
-            echo ($data['name']);
+    foreach ($available as $item) {
+        if($data['key'] == $item['championId']) {
+            echo ($data['name']) . PHP_EOL;
         }
     }
 }
+
+
+
+
