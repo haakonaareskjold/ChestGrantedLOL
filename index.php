@@ -13,7 +13,7 @@ $ddragon_json = $resDdragon->getBody();
 $content = json_decode($ddragon_json, true);
 
 # fetches champion-mastery V4 API
-$url = "https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" . $_ENV['SID'] . "?api_key=" . $_ENV['APIKEY'];
+$url = "https://" . $_ENV['SERVER'] . ".api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" . $_ENV['SID'] . "?api_key=" . $_ENV['APIKEY'];
 $client = new Client();
 $res = $client->get($url);
 
@@ -41,6 +41,7 @@ function search($array, $key, $value)
 
 
 $available = (search($list, 'chestGranted', false));
+$amount =  count($available);
 
 # Fetches champion image according to current patch
 $img = "https://ddragon.leagueoflegends.com/cdn/" . getenv('PATCH') . "/img/champion/";
@@ -54,7 +55,3 @@ foreach ($content['data'] as $data) {
         }
     }
 }
-
-
-
-
