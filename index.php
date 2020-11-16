@@ -20,14 +20,39 @@ $res = $client->get($url);
 $json = $res->getBody();
 $list = json_decode($json, true);
 $championId = array_column($list, 'championId');
+$grantedChest = array_column($list, 'ChestGranted');
 
+function search($array, $key, $value)
+{
+    $results = array();
 
-    foreach ($content['data'] as $data) {
-        foreach ($championId as $value) {
-            if($data['key'] == $value) {
-                echo $data['name'] . PHP_EOL;
-            }
+    if (is_array($array)) {
+        if (isset($array[$key]) && $array[$key] == $value) {
+            $results[] = $array;
+        }
+
+        foreach ($array as $subarray) {
+            $results = array_merge($results, search($subarray, $key, $value));
         }
     }
 
+    return $results;
+}
 
+
+$available = (search($list, 'chestGranted', false));
+
+# TODO
+# Displays integers of all champions that has chest available
+foreach ($available as $item) {
+        echo ($item['championId']) . PHP_EOL;
+}
+
+# Displays all champions available (string name)
+foreach ($content['data'] as $data) {
+    foreach ($championId as $value) {
+        if($data['key'] == $value) {
+            echo ($data['name']);
+        }
+    }
+}
