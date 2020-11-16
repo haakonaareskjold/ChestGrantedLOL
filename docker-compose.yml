@@ -1,0 +1,34 @@
+version: "3.8"
+
+services:
+
+  # API
+  api:
+    container_name: ChestGrantedLOL
+    image: php:7.4-alpine3.12
+    working_dir: /app
+    command: php -S 0.0.0.0:8080
+    environment:
+      docker: "true"
+    env_file:
+      - .env
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/app
+    networks:
+      - chestGrantedNet
+
+  composer:
+    image: composer:2.0.6
+    container_name: composer
+    command: composer install --no-dev --no-ansi --no-interaction
+    working_dir: /app
+    volumes:
+    - .:/app
+    networks:
+      - chestGrantedNet
+
+networks:
+  chestGrantedNet:
+    driver: bridge
