@@ -4,6 +4,7 @@ use GuzzleHttp\Client;
 
 require_once __DIR__. '/bootstrap.php';
 require_once __DIR__. '/vendor/autoload.php';
+require_once __DIR__. '/index.views.php';
 
 # fetches ddragon json with newest patch
 $champions = "http://ddragon.leagueoflegends.com/cdn/" . getenv('PATCH') . "/data/en_US/champion.json";
@@ -42,14 +43,15 @@ function search($array, $key, $value)
 
 $available = (search($list, 'chestGranted', false));
 
-
-
+# Fetches champion image according to current patch
+$img = "https://ddragon.leagueoflegends.com/cdn/" . getenv('PATCH') . "/img/champion/";
 
 # Displays integers of all champions that has chest available
 foreach ($content['data'] as $data) {
     foreach ($available as $item) {
         if($data['key'] == $item['championId']) {
-            echo ($data['name']) . PHP_EOL;
+            $championImg = $img . $data['id'] . ".png";
+            print_r("<img alt='{$data['name']}' src={$championImg}></a>");
         }
     }
 }
