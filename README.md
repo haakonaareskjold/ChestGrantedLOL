@@ -1,7 +1,10 @@
 # ChestGrantedLOL
 
-This is just a small webapp that displays what champions you have chest available on \
-it requires you to fill in your summonerID, and a Riot API Key to work.
+This is just a small web API that displays what champions you have chest available on \
+It only requires a RGAPI (Riot Games API Key) to run. The app has a form where you fill in your league username 
+and pick your designated server. Then it will fetch what champions you are eligible 
+to get a chest from.
+
 
 ### How to run
 1. `cp .env.example .env` and fill in your credentials in the .env file
