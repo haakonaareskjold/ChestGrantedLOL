@@ -1,3 +1,10 @@
+<?php
+# starts session
+session_start();
+if (empty($_SESSION['token'])) {
+    $_SESSION['token'] = bin2hex(random_bytes(32));
+}
+?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -22,12 +29,11 @@
 <div class="container">
 <?php
 
-session_start();
-if (empty($_SESSION['token'])) {
-    $_SESSION['token'] = bin2hex(random_bytes(32));
-}
-
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\ServerException;
+
 require_once __DIR__. '/bootstrap.php';
 
 
@@ -45,8 +51,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 # Fetches SID from  Summoner-V4 API and writes it to .env file
 $account = "https://". $server . ".api.riotgames.com/lol/summoner/v4/summoners/by-name/". $username . "?api_key=" . $_ENV['APIKEY'];
 $summoner = new Client();
-$json = $summoner->request('GET', $account);
-$body = $json->getBody();
+    try {
+        $json = $summoner->request('GET', $account);
+    } catch (ClientException | ServerException $e) {
+        $error = $e->getResponse()->getStatusCode();
+
+        if ($error !== 200) {
+            die('an error has occurred, please try again later');
+        }
+    }
+    $body = $json->getBody();
 $content = json_decode($body, true);
 $summonerID = $content['id'];
 putenv("SID={$summonerID}");
@@ -55,14 +69,31 @@ putenv("SID={$summonerID}");
 # fetches ddragon json with newest patch
     $champions = "http://ddragon.leagueoflegends.com/cdn/" . getenv('PATCH') . "/data/en_US/champion.json";
     $ddragon = new Client();
-    $resDdragon = $ddragon->get($champions);
+
+    try {
+        $resDdragon = $ddragon->get($champions);
+    } catch (ClientException | ServerException $e) {
+        $error = $e->getResponse()->getStatusCode();
+
+        if ($error !== 200) {
+            die('an error has occurred, please try again later');
+        }
+    }
     $ddragon_json = $resDdragon->getBody();
     $content = json_decode($ddragon_json, true);
 
 # fetches champion-mastery V4 API
     $url = "https://" . $server . ".api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" . getenv('SID') . "?api_key=" . $_ENV['APIKEY'];
     $client = new Client();
-    $res = $client->get($url);
+    try {
+        $res = $client->get($url);
+    } catch (ClientException | ServerException $e) {
+        $error = $e->getResponse()->getStatusCode();
+
+        if ($error !== 200) {
+            die('an error has occurred, please try again later');
+        }
+    }
 
     $json = $res->getBody();
     $list = json_decode($json, true);
