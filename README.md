@@ -12,11 +12,11 @@ to get a chest from.
    a champion, amount of points, champ level and champ ID among others. \
    So the problem here is that my API can't really know if you own that champion or not. \
    It just assumed you own the champion as long as you have XP on it. If you have never played \
-   The champion, but have chest available the API won't recognise it.
+   The champion, it won't show up in the API in, despite owning it.
    
-**TLDR:If you have all champions/played them at least once in your life, it will show 100% correct, \
-in other words, my API might show incorrect if you have never played a champion you own, \
-also not-owned will show**
+**TLDR:If you do not own a champion, but has XP on it- it will show up as Riot Games' API has no indicator for if you own a champion or not,
+the API just assumes you do if you have XP on it. The only way this API can show 100% correct is IF you own all champions, 
+and have at least played them once**
    
 
 ### How to run
