@@ -6,6 +6,19 @@ and pick your designated server. Then it will fetch what champions you are eligi
 to get a chest from.
 
 
+### Known bugs/issues
+*  There is no key-value pair in any of the RIOT APIs that indicates if you own a champion \
+   or not, the champion-mastery-v4 API has key-value pairs for last time you played \
+   a champion, amount of points, champ level and champ ID among others. \
+   So the problem here is that my API can't really know if you own that champion or not. \
+   It just assumed you own the champion as long as you have XP on it. If you have never played \
+   The champion, but have chest available the API won't recognise it.
+   
+**TLDR:If you have all champions/played them at least once in your life, it will show 100% correct, \
+in other words, my API might show incorrect if you have never played a champion you own, \
+also not-owned will show**
+   
+
 ### How to run
 1. `cp .env.example .env` and fill in your credentials in the .env file
 2. run `docker-compose up -d` and go to  `localhost:8080` in your browser
