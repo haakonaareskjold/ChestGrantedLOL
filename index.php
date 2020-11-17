@@ -97,8 +97,6 @@ putenv("SID={$summonerID}");
 
     $json = $res->getBody();
     $list = json_decode($json, true);
-    $championId = array_column($list, 'championId');
-    $grantedChest = array_column($list, 'ChestGranted');
 
     function search($array, $key, $value)
     {
