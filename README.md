@@ -1,6 +1,6 @@
 # ChestGrantedLOL
 
-This is just a simple Laravel App that displays what champions you have chest available on left this season.
+A simple Laravel App that displays what champions you have chest available on left this season.
 It only requires a RGAPI (Riot Games API Key) to run. The app has a form where you fill in your league username
 and pick your designated server. Then it will fetch the required information by using Riot's Summoners-V4 API,
 Champion-Mastery-V4 API and Data Dragon API.
@@ -8,7 +8,7 @@ Champion-Mastery-V4 API and Data Dragon API.
 
 ### How to run
 1. `cp .env.example .env` and fill in your credentials in the .env file
-2. run `docker-compose up -d` and go to  `localhost:8080` in your browser
+2. run `docker-compose up -d` and go to  `localhost:8000` in your browser
 
 ### Requirements
 * Docker-compose

@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+
+  # API
+  api:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    container_name: api
+    working_dir: /app
+    environment:
+      docker: "true"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    networks:
+      - bridge
+
+  # Composer
+  composer:
+    image: composer:2.0.6
+    container_name: composer
+    command: composer install --no-dev --no-ansi --no-interaction
+    working_dir: /app
+    volumes:
+      - .:/app
+    networks:
+      - bridge
+
+  # Webserver
+  nginx:
+    image: nginx:1.19.4-alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - .:/app
+      - ./docker/nginx:/etc/nginx/conf.d
+    networks:
+      - bridge
+
+
+networks:
+  bridge:
+    driver: bridge
