@@ -5,27 +5,14 @@ services:
   # API
   api:
     build:
-      context: ./docker
+      context: ./
       dockerfile: Dockerfile
     container_name: api
-    working_dir: /app
-    environment:
-      docker: "true"
+    working_dir: /var/www
     env_file:
       - .env
     volumes:
-      - .:/app
-    networks:
-      - bridge
-
-  # Composer
-  composer:
-    image: composer:2.0.6
-    container_name: composer
-    command: composer install --no-dev --no-ansi --no-interaction
-    working_dir: /app
-    volumes:
-      - .:/app
+      - .:/var/www
     networks:
       - bridge
 
@@ -37,8 +24,8 @@ services:
     ports:
       - 8000:80
     volumes:
-      - .:/app
-      - ./docker/nginx:/etc/nginx/conf.d
+      - .:/var/www
+      - ./nginx:/etc/nginx/conf.d
     networks:
       - bridge
 
