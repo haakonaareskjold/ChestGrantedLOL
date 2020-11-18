@@ -4,31 +4,45 @@ services:
 
   # API
   api:
-    container_name: ChestGrantedLOL
-    image: php:7.4-alpine3.12
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    container_name: api
     working_dir: /app
-    command: php -S 0.0.0.0:8080
     environment:
       docker: "true"
     env_file:
       - .env
-    ports:
-      - 8080:8080
     volumes:
       - .:/app
     networks:
-      - chestGrantedNet
+      - bridge
 
+  # Composer
   composer:
     image: composer:2.0.6
     container_name: composer
     command: composer install --no-dev --no-ansi --no-interaction
     working_dir: /app
     volumes:
-    - .:/app
+      - .:/app
     networks:
-      - chestGrantedNet
+      - bridge
+
+  # Webserver
+  nginx:
+    image: nginx:1.19.4-alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - 8000:80
+    volumes:
+      - .:/app
+      - ./docker/nginx:/etc/nginx/conf.d
+    networks:
+      - bridge
+
 
 networks:
-  chestGrantedNet:
+  bridge:
     driver: bridge
