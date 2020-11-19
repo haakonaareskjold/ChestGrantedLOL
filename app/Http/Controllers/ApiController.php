@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Dotenv\Dotenv;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\ServerException;
 use Illuminate\Http\Request;
 
@@ -54,13 +55,11 @@ class ApiController extends Controller
         $summoner = new Client();
         try {
             $json = $summoner->request('GET', $account);
-        } catch (ClientException | ServerException $e) {
-            $error = $e->getResponse()->getStatusCode();
+        } catch (GuzzleException $exception) {
 
-            if ($error !== 200) {
-                die('an error has occurred, please try again later');
-            }
+            return view('error', compact('exception'));
         }
+
         $body = $json->getBody();
         $content = json_decode($body, true);
         $summonerID = $content['id'];
@@ -69,17 +68,14 @@ class ApiController extends Controller
 
         # fetches ddragon json with newest patch
         $champions = "http://ddragon.leagueoflegends.com/cdn/" . getenv('PATCH') . "/data/en_US/champion.json";
-        $ddragon = new Client();
 
+        $ddragon = new Client();
         try {
             $resDdragon = $ddragon->get($champions);
-        } catch (ClientException | ServerException $e) {
-            $error = $e->getResponse()->getStatusCode();
-
-            if ($error !== 200) {
-                die('an error has occurred, please try again later');
-            }
+        } catch (GuzzleException $e) {
+            return view('error', compact('exception'));
         }
+
         $ddragon_json = $resDdragon->getBody();
         $content = json_decode($ddragon_json, true);
 

@@ -49,6 +49,12 @@
             align-self: center;
             margin-top: 5rem;
         }
+        .error {
+            margin-bottom: 2rem;
+            display: flex;
+            align-self: center;
+            margin-top: 25%;
+        }
     </style>
 </head>
 <body>
