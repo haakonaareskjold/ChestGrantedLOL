@@ -8,7 +8,9 @@ Champion-Mastery-V4 API and Data Dragon API.
 
 ### How to run
 1. `cp .env.example .env` and fill in your credentials in the .env file
-2. run `docker-compose up -d` and go to  `localhost:8000` in your browser
+2. use `docker-compose up -d` create/run the containers
+3. generate a laravel app key with `docker exec api php artisan key:generate`
+4. check `http://localhost:8000` in your browser to use the app
 
 ### Requirements
 * Docker-compose
