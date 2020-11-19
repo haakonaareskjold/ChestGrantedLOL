@@ -8,7 +8,7 @@
     <form method="POST" enctype="multipart/form-data" action="{{ route('store') }}">
         @csrf
         <label>
-            <input type="text" class="form-control" name="username" autocomplete="off" autofocus required placeholder="username">
+            <input type="text" class="form-control" name="username" autocomplete="off" autofocus required placeholder="summoner name">
         </label>
 
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
