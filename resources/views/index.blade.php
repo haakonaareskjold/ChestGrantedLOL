@@ -3,9 +3,9 @@
 
 @section('content')
     <x-return-home />
-    </div>
-    <div class="item"><h1>Chests available for: {{ $name }}</h1></div>
-    <div class="item"><h1>amounts of chests: {{ count($available)}}</h1></div>
+
+    <div class="item"><h1>Summoner: {{ $name }}</h1></div>
+    <div class="item"><h1>Chests Available: {{ count($available)}}</h1></div>
     <div class="item">
     @foreach( $content['data'] as $data)
         @foreach($available as $item)

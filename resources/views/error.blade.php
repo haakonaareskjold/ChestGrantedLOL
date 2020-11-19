@@ -6,7 +6,7 @@
 @section('content')
     <x-return-home />
 
-<div class="error">
+<div class="info">
     <h1>Code: {{ $exception->getCode() }}</h1>
 </div>
     <div style="align-self: center">

@@ -41,15 +41,10 @@
             display: flex;
             flex-wrap: wrap;
             list-style: none;
-            margin-top: 2rem;
+            margin-top: 5%;
             justify-content: center;
         }
         .info {
-            display: flex;
-            align-self: center;
-            margin-top: 5rem;
-        }
-        .error {
             margin-bottom: 2rem;
             display: flex;
             align-self: center;
