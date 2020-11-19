@@ -24,8 +24,8 @@
         <button class="btn btn-primary btn-lg" type="submit" formmethod="POST">Submit</button>
         </div>
     </form>
-    <p style="color: red">@error('username') {{$message}} @enderror</p>
-    <p style="color: red">@error('server') {{$message}} @enderror</p>
+    <p style="color: #ffffff">@error('username') {{$message}} @enderror</p>
+    <p style="color: #ffffff">@error('server') {{$message}} @enderror</p>
     </div>
 
     <div class="info">
