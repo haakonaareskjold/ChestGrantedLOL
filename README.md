@@ -36,7 +36,7 @@ the API just assumes you do if you have XP on it. The only way this API can show
 IF you own all champions,
 and have at least played them once**
 
-Only bug that has occurred during development in Docker is that the Laravel App doesn't recognize the ENV APP_KEY,
+* Only bug that has occurred during development in Docker is that the Laravel App doesn't recognize the ENV APP_KEY,
 despite actually existing, if you happen to get a stacktrace displaying symfony errors try to use \
 `docker exec api php artisan config:clear` then do a full-refresh of browser
 
