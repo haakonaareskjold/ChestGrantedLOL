@@ -7,12 +7,13 @@ Champion-Mastery-V4 API and Data Dragon API.
 
 
 ### How to run
-1. `cp .env.example .env` and fill in your credentials in the .env file
-2. use `docker-compose up -d` create/run the containers
+1. `cp .env.example .env` and fill in your RGAPI key in the .env file
+2. use `docker-compose up -d` to create/run the containers
 3. generate a laravel app key with `docker exec api php artisan key:generate`
 4. check `http://localhost:8000` in your browser to use the app
 
 ### Requirements
+* Docker
 * Docker-compose
 
 
@@ -34,4 +35,8 @@ has no indicator for if you own a champion or not,
 the API just assumes you do if you have XP on it. The only way this API can show 100% correct is
 IF you own all champions,
 and have at least played them once**
+
+Only bug that has occurred during development in Docker is that the Laravel App doesn't recognize the ENV APP_KEY,
+despite actually existing, if you happen to get a stacktrace displaying symfony errors try to use \
+`docker exec api php artisan config:clear` then do a full-refresh of browser
 
