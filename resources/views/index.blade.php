@@ -2,10 +2,7 @@
 @section('title', $name)
 
 @section('content')
-    <div class="return">
-        <button type="button" class="btn btn-dark">
-            <a href="{{ route('create') }}">Return</a>
-        </button>
+    <x-return-home />
     </div>
     <div class="item"><h1>Chests available for: {{ $name }}</h1></div>
     <div class="item"><h1>amounts of chests: {{ count($available)}}</h1></div>

@@ -4,11 +4,7 @@
 @section('title', __('Error' . ': ' . $exception->getCode() ))
 
 @section('content')
-    <div class="return">
-        <button type="button" class="btn btn-dark">
-            <a href="{{ route('create') }}">Return</a>
-        </button>
-    </div>
+    <x-return-home />
 
 <div class="error">
     <h1>Code: {{ $exception->getCode() }}</h1>
