@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use Dotenv\Dotenv;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\ServerException;
 use Illuminate\Http\Request;
 
 class ApiController extends Controller
@@ -48,7 +46,7 @@ class ApiController extends Controller
         $server = $request['server'];
 
         // Fetches SID from  Summoner-V4 API and writes it to .env file
-        $account = 'https://'.$server.'.api.riotgames.com/lol/summoner/v4/summoners/by-name/'.$username.'?api_key='.$_ENV['RGAPI'];
+        $account = 'https://'.$server.'.api.riotgames.com/lol/summoner/v4/summoners/by-name/'.$username.'?api_key='. env('RGAPI',);
 
         $summoner = new Client();
         try {
@@ -64,7 +62,7 @@ class ApiController extends Controller
         putenv("SID={$summonerID}");
 
         // fetches ddragon json with newest patch
-        $champions = 'http://ddragon.leagueoflegends.com/cdn/'.getenv('PATCH').'/data/en_US/champion.json';
+        $champions = 'http://ddragon.leagueoflegends.com/cdn/'.env('PATCH').'/data/en_US/champion.json';
 
         $ddragon = new Client();
         try {
@@ -77,7 +75,7 @@ class ApiController extends Controller
         $content = json_decode($ddragon_json, true);
 
         // fetches champion-mastery V4 API
-        $url = 'https://'.$server.'.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/'.getenv('SID').'?api_key='.$_ENV['RGAPI'];
+        $url = 'https://'.$server.'.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/'. env('SID').'?api_key='. env('RGAPI');
         $client = new Client();
 
         try {
@@ -110,7 +108,7 @@ class ApiController extends Controller
         $available = (search($list, 'chestGranted', false));
 
         // Fetches champion image according to current patch
-        $img = 'https://ddragon.leagueoflegends.com/cdn/'.getenv('PATCH').'/img/champion/';
+        $img = 'https://ddragon.leagueoflegends.com/cdn/' . env('PATCH').'/img/champion/';
 
         return view('index', compact('content', 'available', 'img', 'name'));
     }
