@@ -18,7 +18,7 @@ class ApiController extends Controller
     {
         $dotenv = Dotenv::createMutable(base_path());
         $dotenv->load();
-        $dotenv->required(['PATCH', 'SID', 'RGAPI']);
+        $dotenv->required(['RGAPI']);
 
         // phpdotenv script to fetch DDragon json to update to newest version automatically
         $fetch = new Client();
@@ -36,7 +36,6 @@ class ApiController extends Controller
         $json = $response->getBody();
         $array = json_decode($json, true);
         $version = $array[0];
-        putenv("PATCH={$version}");
 
         // validation of form
         ($this->validateForm($request));
@@ -46,7 +45,7 @@ class ApiController extends Controller
         $server = $request['server'];
 
         // Fetches SID from  Summoner-V4 API and writes it to .env file
-        $account = 'https://'.$server.'.api.riotgames.com/lol/summoner/v4/summoners/by-name/'.$username.'?api_key='. env('RGAPI',);
+        $account = 'https://'.$server.'.api.riotgames.com/lol/summoner/v4/summoners/by-name/'.$username.'?api_key='. config('env.API',);
 
         $summoner = new Client();
         try {
@@ -59,10 +58,9 @@ class ApiController extends Controller
         $content = json_decode($body, true);
         $summonerID = $content['id'];
         $name = $content['name'];
-        putenv("SID={$summonerID}");
 
         // fetches ddragon json with newest patch
-        $champions = 'http://ddragon.leagueoflegends.com/cdn/'.env('PATCH').'/data/en_US/champion.json';
+        $champions = 'http://ddragon.leagueoflegends.com/cdn/'. $version .'/data/en_US/champion.json';
 
         $ddragon = new Client();
         try {
@@ -75,7 +73,7 @@ class ApiController extends Controller
         $content = json_decode($ddragon_json, true);
 
         // fetches champion-mastery V4 API
-        $url = 'https://'.$server.'.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/'. env('SID').'?api_key='. env('RGAPI');
+        $url = 'https://'.$server.'.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/'. $summonerID . '?api_key='. config('env.API');
         $client = new Client();
 
         try {
@@ -108,7 +106,7 @@ class ApiController extends Controller
         $available = (search($list, 'chestGranted', false));
 
         // Fetches champion image according to current patch
-        $img = 'https://ddragon.leagueoflegends.com/cdn/' . env('PATCH').'/img/champion/';
+        $img = 'https://ddragon.leagueoflegends.com/cdn/' . $version .'/img/champion/';
 
         return view('index', compact('content', 'available', 'img', 'name'));
     }
