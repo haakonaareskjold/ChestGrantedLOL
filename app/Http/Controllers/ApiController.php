@@ -13,7 +13,7 @@ class ApiController extends Controller
 {
     public function create()
     {
-        return view ('create');
+        return view('create');
     }
 
     public function store(Request $request)
@@ -22,7 +22,7 @@ class ApiController extends Controller
         $dotenv->load();
         $dotenv->required(['PATCH', 'SID', 'RGAPI']);
 
-        # phpdotenv script to fetch DDragon json to update to newest version automatically
+        // phpdotenv script to fetch DDragon json to update to newest version automatically
         $fetch = new Client();
         try {
             $response = $fetch->request(
@@ -33,7 +33,7 @@ class ApiController extends Controller
             $error = $e->getResponse()->getStatusCode();
 
             if ($error !== 200) {
-                die('an error has occurred, please try again later');
+                exit('an error has occurred, please try again later');
             }
         }
 
@@ -42,21 +42,20 @@ class ApiController extends Controller
         $version = $array[0];
         putenv("PATCH={$version}");
 
-        # validation of form
+        // validation of form
         ($this->validateForm($request));
 
-        # form handling
+        // form handling
         $username = $_POST['username'];
         $server = $_POST['server'];
 
-        # Fetches SID from  Summoner-V4 API and writes it to .env file
-        $account = "https://". $server . ".api.riotgames.com/lol/summoner/v4/summoners/by-name/". $username . "?api_key=" . $_ENV['RGAPI'];
+        // Fetches SID from  Summoner-V4 API and writes it to .env file
+        $account = 'https://'.$server.'.api.riotgames.com/lol/summoner/v4/summoners/by-name/'.$username.'?api_key='.$_ENV['RGAPI'];
 
         $summoner = new Client();
         try {
             $json = $summoner->request('GET', $account);
         } catch (GuzzleException $exception) {
-
             return view('error', compact('exception'));
         }
 
@@ -66,8 +65,8 @@ class ApiController extends Controller
         $name = $content['name'];
         putenv("SID={$summonerID}");
 
-        # fetches ddragon json with newest patch
-        $champions = "http://ddragon.leagueoflegends.com/cdn/" . getenv('PATCH') . "/data/en_US/champion.json";
+        // fetches ddragon json with newest patch
+        $champions = 'http://ddragon.leagueoflegends.com/cdn/'.getenv('PATCH').'/data/en_US/champion.json';
 
         $ddragon = new Client();
         try {
@@ -79,8 +78,8 @@ class ApiController extends Controller
         $ddragon_json = $resDdragon->getBody();
         $content = json_decode($ddragon_json, true);
 
-        # fetches champion-mastery V4 API
-        $url = "https://" . $server . ".api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/" . getenv('SID') . "?api_key=" . $_ENV['RGAPI'];
+        // fetches champion-mastery V4 API
+        $url = 'https://'.$server.'.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/'.getenv('SID').'?api_key='.$_ENV['RGAPI'];
         $client = new Client();
         try {
             $res = $client->get($url);
@@ -88,7 +87,7 @@ class ApiController extends Controller
             $error = $e->getResponse()->getStatusCode();
 
             if ($error !== 200) {
-                die('an error has occurred, please try again later');
+                exit('an error has occurred, please try again later');
             }
         }
 
@@ -97,7 +96,7 @@ class ApiController extends Controller
 
         function search($array, $key, $value): array
         {
-            $results = array();
+            $results = [];
 
             if (is_array($array)) {
                 if (isset($array[$key]) && $array[$key] == $value) {
@@ -112,11 +111,10 @@ class ApiController extends Controller
             return $results;
         }
 
-
         $available = (search($list, 'chestGranted', false));
 
-        # Fetches champion image according to current patch
-        $img = "https://ddragon.leagueoflegends.com/cdn/" . getenv('PATCH') . "/img/champion/";
+        // Fetches champion image according to current patch
+        $img = 'https://ddragon.leagueoflegends.com/cdn/'.getenv('PATCH').'/img/champion/';
 
         return view('index', compact('content', 'available', 'img', 'name'));
     }
