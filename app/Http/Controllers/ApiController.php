@@ -32,7 +32,6 @@ class ApiController extends Controller
             return view('error', compact('exception'));
         }
 
-
         $json = $response->getBody();
         $array = json_decode($json, true);
         $version = $array[0];
@@ -45,7 +44,7 @@ class ApiController extends Controller
         $server = $request['server'];
 
         // Fetches SID from  Summoner-V4 API and writes it to .env file
-        $account = 'https://'.$server.'.api.riotgames.com/lol/summoner/v4/summoners/by-name/'.$username.'?api_key='. config('env.API',);
+        $account = 'https://'.$server.'.api.riotgames.com/lol/summoner/v4/summoners/by-name/'.$username.'?api_key='.config('env.API', );
 
         $summoner = new Client();
         try {
@@ -60,7 +59,7 @@ class ApiController extends Controller
         $name = $content['name'];
 
         // fetches ddragon json with newest patch
-        $champions = 'http://ddragon.leagueoflegends.com/cdn/'. $version .'/data/en_US/champion.json';
+        $champions = 'http://ddragon.leagueoflegends.com/cdn/'.$version.'/data/en_US/champion.json';
 
         $ddragon = new Client();
         try {
@@ -73,7 +72,7 @@ class ApiController extends Controller
         $content = json_decode($ddragon_json, true);
 
         // fetches champion-mastery V4 API
-        $url = 'https://'.$server.'.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/'. $summonerID . '?api_key='. config('env.API');
+        $url = 'https://'.$server.'.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/'.$summonerID.'?api_key='.config('env.API');
         $client = new Client();
 
         try {
@@ -81,7 +80,6 @@ class ApiController extends Controller
         } catch (GuzzleException $exception) {
             return view('error', compact('exception'));
         }
-
 
         $json = $res->getBody();
         $list = json_decode($json, true);
@@ -106,7 +104,7 @@ class ApiController extends Controller
         $available = (search($list, 'chestGranted', false));
 
         // Fetches champion image according to current patch
-        $img = 'https://ddragon.leagueoflegends.com/cdn/' . $version .'/img/champion/';
+        $img = 'https://ddragon.leagueoflegends.com/cdn/'.$version.'/img/champion/';
 
         return view('index', compact('content', 'available', 'img', 'name'));
     }
