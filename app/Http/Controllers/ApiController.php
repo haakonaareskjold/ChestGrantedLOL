@@ -44,7 +44,7 @@ class ApiController extends Controller
         $server = $request['server'];
 
         // Fetches SID from  Summoner-V4 API and writes it to .env file
-        $account = 'https://'.$server.'.api.riotgames.com/lol/summoner/v4/summoners/by-name/'.$username.'?api_key='.config('env.API', );
+        $account = 'https://'.$server.'.api.riotgames.com/lol/summoner/v4/summoners/by-name/'.$username.'?api_key='.config('env.API');
 
         $summoner = new Client();
         try {
