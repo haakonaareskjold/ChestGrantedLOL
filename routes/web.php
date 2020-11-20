@@ -17,5 +17,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [ApiController::class, 'create'])->name('create');
 Route::post('/', [ApiController::class, 'store'])->name('store');
 
-
 Route::get('/available', [ApiController::class, 'index'])->name('index');
