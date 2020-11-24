@@ -10,7 +10,9 @@
     @foreach( $content['data'] as $data)
         @foreach($available as $item)
             @if($data['key'] == $item['championId'])
-                 <img src="{{ $img . $data['id'] . ".png" }}">
+                <a href=https://euw.op.gg/champion/{{$data['id']}}/statistics/ target=_blank>
+                 <img alt="{{ $data['name']}}" src="{{ $img . $data['id'] . ".png" }}" />
+                <span class="names border border-dark bg-dark rounded-lg">{{ $data['name'] }}</span>
             @endif
         @endforeach
     @endforeach

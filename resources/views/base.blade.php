@@ -50,6 +50,10 @@
             align-self: center;
             margin-top: 25%;
         }
+        .names {
+            display: block;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
