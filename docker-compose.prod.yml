@@ -1,0 +1,41 @@
+version: "3.7"
+
+services:
+
+  # API
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: api
+    volumes:
+      - .:/var/www
+    networks:
+      - bridge
+
+  # Webserver
+  nginx:
+    image: nginx:1.19.4-alpine
+    container_name: nginx
+    ports:
+      - 8000:80
+    volumes:
+      - .:/var/www
+      - ./nginx:/etc/nginx/conf.d
+    networks:
+      - bridge
+
+  composer:
+    image: composer:2.0.6
+    container_name: composer
+    command: composer install --no-dev
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+    networks:
+      - bridge
+
+
+networks:
+  bridge:
+    driver: bridge

@@ -1,0 +1,39 @@
+image: tiangolo/docker-with-compose
+
+services:
+  - docker:dind
+
+stages:
+  - test
+  - deploy
+
+step-dev:
+  stage: test
+  before_script:
+    - export DYNAMIC_ENV_VAR=DEV
+    - cp .env.example .env
+    - echo $RGAPI >> .env
+  only:
+    - dev
+  tags:
+    - dev
+  script:
+    - echo running tests in $DYNAMIC_ENV_VAR
+    - docker-compose up -d --build
+    - docker exec api php artisan key:generate
+
+
+step-deploy-production:
+  stage: deploy
+  before_script:
+    - export DYNAMIC_ENV_VAR=PRODUCTION
+  only:
+    - production
+  tags:
+    - production
+  script:
+    - echo setting up env $DYNAMIC_ENV_VAR
+    - cp .env.example .env
+    - docker-compose -f docker-compose.prod.yml up -d --build
+    - docker exec api php artisan key:generate
+  when: manual
