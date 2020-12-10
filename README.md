@@ -1,6 +1,6 @@
 # ChestGrantedLOL
 
-[![StyleCI](https://github.styleci.io/repos/313168965/shield?branch=main)](https://github.styleci.io/repos/313168965?branch=main)
+[![pipeline status](https://gitlab.com/haakon36/ChestGrantedLOL/badges/production/pipeline.svg)](https://gitlab.com/haakon36/ChestGrantedLOL/-/commits/production)
 
 A simple Laravel App that displays what champions you have chest available on left this season.
 It only requires a RGAPI (Riot Games API Key) to run. The app has a form where you fill in your league username
