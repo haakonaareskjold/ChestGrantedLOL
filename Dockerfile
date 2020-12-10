@@ -1,10 +1,9 @@
-FROM php:7.4-fpm-alpine
-WORKDIR /var/www/
+FROM php:8.0-fpm-alpine3.12
+
 ARG USER=nemesis
 ARG ID=1000
 
-COPY composer.json composer.lock /var/www/
-
+COPY ./ /var/www
 
  # Adding user
 RUN adduser \
@@ -15,6 +14,6 @@ RUN adduser \
     --uid ${ID} \
     ${USER}
 
+WORKDIR /var/www
 
 USER ${ID}:${ID}
-
