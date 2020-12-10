@@ -7,10 +7,11 @@ stages:
 composer:
   stage: build
   image: lorisleiva/laravel-docker:latest
+  before_script:
+    - cp .env.example .env
+    - echo "RGAPI=$RGAPI" >> .env
   script:
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts
-    - cp .env.example .env
-    - echo "$RGAPI_KEY" >> .env
     - php artisan key:generate
   cache:
     key: ${CI_COMMIT_REF_SLUG}-composer
