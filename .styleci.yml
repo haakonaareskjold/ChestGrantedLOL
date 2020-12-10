@@ -1,4 +1,4 @@
-preset: psr12
+preset: none
 
 finder:
   exclude:
