@@ -1,7 +1,4 @@
-preset: laravel
-
-disabled:
-  - trailing_comma_in_multiline_array
+preset: psr12
 
 finder:
   exclude:

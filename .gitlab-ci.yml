@@ -5,6 +5,9 @@ stages:
 
 composer:
   stage: build
+  only:
+    - main
+    - production
   image: lorisleiva/laravel-docker:latest
   before_script:
     - cp .env.example .env
@@ -25,6 +28,8 @@ composer:
 
 phpunit:
   stage: test
+  only:
+    - main
   dependencies:
     - composer
   script:
@@ -32,6 +37,8 @@ phpunit:
 
 codestyle:
   stage: test
+  only:
+    - main
   dependencies: []
   script:
     - phpcs --standard=PSR12 --extensions=php app/Http/Controllers/ApiController.php
