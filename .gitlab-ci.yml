@@ -10,7 +10,7 @@ composer:
     - production
   image: lorisleiva/laravel-docker:latest
   before_script:
-    - cp .env.example .env
+    - cp .env.prod.example .env
     - echo "RGAPI=${SECRET_API_KEY}" >> .env
   script:
     - composer install --prefer-dist --no-ansi --no-interaction --no-progress --no-scripts

@@ -17,16 +17,27 @@ services:
   nginx:
     image: nginx:1.19.4-alpine
     restart: unless-stopped
-    ports:
-      - 8080:80
     volumes:
       - .:/var/www
       - ./nginx:/etc/nginx/conf.d
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.chestgranted.middlewares=redirect-to-https"
+      - "traefik.http.routers.chestgranted.rule=Host(`chestgranted.haakon.wtf`)"
+      - "traefik.http.routers.chestgranted.entrypoints=web"
+      - "traefik.http.routers.chestgranted-secure.rule=Host(`chestgranted.haakon.wtf`)"
+      - "traefik.http.routers.chestgranted-secure.tls=true"
+      - "traefik.http.routers.chestgranted-secure.tls.certresolver=myresolver"
+      - "traefik.docker.network=traefik-proxy"
     networks:
       - bridge
+      - traefik-proxy
 
 
 
 networks:
   bridge:
     driver: bridge
+  traefik-proxy:
+    external: true
