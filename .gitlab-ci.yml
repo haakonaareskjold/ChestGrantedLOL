@@ -6,9 +6,9 @@ stages:
 composer:
   stage: build
   tags:
-    - deploy
+    - dev
   only:
-    - production
+    - main
   image: lorisleiva/laravel-docker:latest
   before_script:
     - cp .env.prod.example .env
@@ -30,9 +30,9 @@ composer:
 phpunit:
   stage: test
   tags:
-    - main
-  only:
     - dev
+  only:
+    - main
   dependencies:
     - composer
   script:
@@ -47,15 +47,3 @@ codestyle:
   dependencies: []
   script:
     - phpcs --standard=PSR12 --extensions=php app/Http/Controllers/ApiController.php
-
-deploy:
-  stage: deploy
-  only:
-    - production
-  tags:
-    - deploy
-  image: tiangolo/docker-with-compose
-  script:
-    - docker-compose -f docker-compose.deploy.yml build
-    - docker-compose -f docker-compose.deploy.yml down
-    - docker-compose -f docker-compose.deploy.yml up -d --force-recreate
