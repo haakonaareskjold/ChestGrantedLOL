@@ -5,8 +5,9 @@ stages:
 
 composer:
   stage: build
+  tags:
+    - deploy
   only:
-    - main
     - production
   image: lorisleiva/laravel-docker:latest
   before_script:
@@ -28,8 +29,10 @@ composer:
 
 phpunit:
   stage: test
-  only:
+  tags:
     - main
+  only:
+    - dev
   dependencies:
     - composer
   script:
@@ -37,6 +40,8 @@ phpunit:
 
 codestyle:
   stage: test
+  tags:
+    - dev
   only:
     - main
   dependencies: []
@@ -46,7 +51,9 @@ codestyle:
 deploy:
   stage: deploy
   only:
-  - production
+    - production
+  tags:
+    - deploy
   image: tiangolo/docker-with-compose
   script:
     - docker-compose -f docker-compose.deploy.yml build
