@@ -108,7 +108,7 @@ class ApiController extends Controller
         // Fetches champion image according to current patch
         $img = 'https://ddragon.leagueoflegends.com/cdn/' . $version . '/img/champion/';
 
-        return view('index', compact('content', 'available', 'img', 'name'));
+        return view('index', compact('content', 'available', 'list', 'img', 'name'));
     }
 
     public function index()
