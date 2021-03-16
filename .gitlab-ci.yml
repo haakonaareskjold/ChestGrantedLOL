@@ -1,9 +1,8 @@
 stages:
   - build
-  - test
   - deploy
 
-composer:
+build_production:
   stage: build
   tags:
     - deploy
@@ -27,28 +26,8 @@ composer:
     expire_in: 1 days
     when: always
 
-phpunit:
-  stage: test
-  tags:
-    - main
-  only:
-    - dev
-  dependencies:
-    - composer
-  script:
-    - phpunit --coverage-text --colors=never
 
-codestyle:
-  stage: test
-  tags:
-    - dev
-  only:
-    - main
-  dependencies: []
-  script:
-    - phpcs --standard=PSR12 --extensions=php app/Http/Controllers/ApiController.php
-
-deploy:
+deploy_production:
   stage: deploy
   only:
     - production
